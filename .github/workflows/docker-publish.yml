@@ -1,0 +1,27 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    paths:
+      - 'Dockerfile'
+      - '**/*.dockerfile'
+      - '.github/workflows/docker-publish.yml'
+    branches:
+      - main  # Change if using a different branch
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker Image
+        run: docker build -t bhaskar112/my_repo:latest .
+
+      - name: Push Docker Image to Docker Hub
+        run: docker push bhaskar112/my_repo:latest
