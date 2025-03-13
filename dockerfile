@@ -5,7 +5,7 @@ FROM python:3.9
 WORKDIR /app
 
 # Copy project files
-COPY . .
+COPY requirements.txt .
 
 # Install dependencies
 RUN pip install -r requirements.txt
